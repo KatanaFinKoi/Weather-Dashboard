@@ -8,14 +8,14 @@ interface Coordinates {
 }
 
 // TODO: Define a class for the Weather object
-class Weather {}
+// class Weather {}
 
 // TODO: Complete the WeatherService class
 class WeatherService {
   private city: string = '';
   // TODO: Define the baseURL, API key, and city name properties
-  private baseUrl = process.env.WEATHER_API_BASE_URL!;
-  private apiKey = process.env.WEATHER_API_KEY!;
+  private baseUrl = process.env.API_BASE_URL!;
+  private apiKey = process.env.API_KEY!;
   // TODO: Create fetchLocationData method
   private async fetchLocationData(query: string) {
     const response = await fetch(query);
@@ -49,19 +49,20 @@ class WeatherService {
     return this.destructureLocationData(response.results[0].geometry);
   }
   // TODO: Create fetchWeatherData method
-  private async fetchWeatherData(coordinates: Coordinates) {}
-  // TODO: Build parseCurrentWeather method
-  private parseCurrentWeather(response: any) {}
-  // TODO: Complete buildForecastArray method
-  private buildForecastArray(currentWeather: Weather, weatherData: any[]) {}
-  // TODO: Complete getWeatherForCity method
+  private async fetchWeatherData(coordinates: Coordinates) {
+    const query = this.buildWeatherQuery(coordinates);
+    const response = await this.fetchLocationData(query);
+    return response.list;
+  }
+  // private parseCurrentWeather(response: any) {}
+  // private buildForecastArray(currentWeather: Weather, weatherData: any[]) {}
   async getWeatherForCity(city: string) {
     this.city = city;
     // call fetchAndDestructureLocationData to return coordinates
     const coordinates = await this.fetchAndDestructureLocationData();
     // call fetchWeatherData with coordinates to return weatherData
     const weatherData = await this.fetchWeatherData(coordinates);
-    
+    console.log(weatherData);
   }
 }
 
