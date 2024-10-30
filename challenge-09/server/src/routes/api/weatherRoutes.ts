@@ -1,14 +1,14 @@
 import { Router } from 'express';
 const router = Router();
 
-// import HistoryService from '../../service/historyService.js';
+import HistoryService from '../../service/historyService.js';
 import WeatherService from '../../service/weatherService.js';
 
 
 router.post('/', (req, res) => {
   let weather = WeatherService.getWeatherForCity(req.body.city)
-  // HistoryService.addCity(req.body.city);
-  // res.json(weather);
+  HistoryService.addCity(req.body.city);
+  res.json(weather);
   console.log(weather);
 });
 

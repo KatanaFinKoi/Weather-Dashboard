@@ -10,50 +10,55 @@ interface Coordinates {
 // TODO: Define a class for the Weather object
 // class Weather {}
 
-// TODO: Complete the WeatherService class
+
 class WeatherService {
   private city: string = '';
-  // TODO: Define the baseURL, API key, and city name properties
   private baseUrl = process.env.API_BASE_URL!;
   private apiKey = process.env.API_KEY!;
-  // TODO: Create fetchLocationData method
+
   private async fetchLocationData(query: string) {
+    console.log('here is query', query)
     const response = await fetch(query);
     const data = await response.json();
     return data;
-
   }
-  // TODO: Create destructureLocationData method
+
+
   private destructureLocationData(locationData: Coordinates): Coordinates {
     return {
       lat: locationData.lat,
       lon: locationData.lon,
     };
   }
-  // TODO: Create buildGeocodeQuery method
+
+
   private buildGeocodeQuery(): string {
-    return `${this.baseUrl}/geocode/v1/json?q=${this.city}&key=${this.apiKey}`;
+    return `${this.baseUrl}/geo/1.0/direct?q=${this.city}&appid=${this.apiKey}`;
 
   }
-  // TODO: Create buildWeatherQuery method
+
   private buildWeatherQuery(coordinates: Coordinates): string {
     return `${this.baseUrl}/data/2.5/forecast?lat=${coordinates.lat}&lon=${coordinates.lon}&units=imperial&appid=${this.apiKey}`;
 
   }
-  // TODO: Create fetchAndDestructureLocationData method
+
+
   private async fetchAndDestructureLocationData() {
   // call bulidGeoCodeQuery
   const query = this.buildGeocodeQuery();
   const response = await this.fetchLocationData(query);
   // call fetchLocationData wity query
-    return this.destructureLocationData(response.results[0].geometry);
+  console.log("here is the response", response);
+    return this.destructureLocationData(response[0]);
   }
-  // TODO: Create fetchWeatherData method
+
+
   private async fetchWeatherData(coordinates: Coordinates) {
     const query = this.buildWeatherQuery(coordinates);
     const response = await this.fetchLocationData(query);
     return response.list;
   }
+
   // private parseCurrentWeather(response: any) {}
   // private buildForecastArray(currentWeather: Weather, weatherData: any[]) {}
   async getWeatherForCity(city: string) {
@@ -64,6 +69,7 @@ class WeatherService {
     const weatherData = await this.fetchWeatherData(coordinates);
     console.log(weatherData);
   }
+
 }
 
 export default new WeatherService();
