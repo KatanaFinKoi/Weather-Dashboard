@@ -13,15 +13,15 @@ router.post('/', (req, res) => {
 });
 
 // TODO: GET search history
-// router.get('/history', async (req, res) => {
-//   let cities = HistoryService.getCities();
-//   res.json(cities);
-// });
+router.get('/history', async (_req, res) => {
+  let cities = HistoryService.getCities();
+  res.json(cities);
+});
 
 // * BONUS TODO: DELETE city from search history
-// router.delete('/history/:id', async (req, res) => {
-//   HistoryService.removeCity(req.params.id);
-//   res.send('City removed');
-// });
+router.delete('/history/:id', async (req, res) => {
+  HistoryService.removeCity(req.params.id);
+  res.send('City removed');
+});
 
 export default router;
